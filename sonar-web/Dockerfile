@@ -10,18 +10,18 @@ RUN apk add --update curl && \
 
 ENTRYPOINT ["/usr/bin/curl"]
 
-RUN set -x && curl -o ${SONAR_PLUGIN_HOME}/sonar-php-plugin-2.8.jar -fSL http://sonarsource.bintray.com/Distribution/sonar-php-plugin/sonar-php-plugin-2.8.jar
-RUN set -x && curl -o ${SONAR_PLUGIN_HOME}/sonar-javascript-plugin-2.12.jar -fSL http://sonarsource.bintray.com/Distribution/sonar-javascript-plugin/sonar-javascript-plugin-2.12.jar
+RUN set -x && curl -o ${SONAR_PLUGIN_HOME}/sonar-php-plugin-2.8.jar -fSL https://binaries.sonarsource.com/Distribution/sonar-php-plugin/sonar-php-plugin-3.0.0.4537.jar
+RUN set -x && curl -o ${SONAR_PLUGIN_HOME}/sonar-javascript-plugin-2.12.jar -fSL https://binaries.sonarsource.com/Distribution/sonar-javascript-plugin/sonar-javascript-plugin-5.2.1.7778.jar
 
-RUN curl --insecure -o ./sonarscanner.zip -L https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.0.3.778-linux.zip
+RUN curl --insecure -o ./sonarscanner.zip -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
 RUN unzip sonarscanner.zip
 RUN rm sonarscanner.zip
 
-ENV SONAR_RUNNER_HOME=/root/sonar-scanner-3.0.3.778-linux
-ENV PATH $PATH:/root/sonar-scanner-3.0.3.778-linux/bin
+ENV SONAR_RUNNER_HOME=/root/sonar-scanner-cli-3.3.0.1492-linux
+ENV PATH $PATH:/root/sonar-scanner-cli-3.3.0.1492-linux/bin
 
 #   ensure Sonar uses the provided Java for musl instead of a borked glibc one
-RUN sed -i 's/use_embedded_jre=true/use_embedded_jre=false/g' /root/sonar-scanner-3.0.3.778-linux/bin/sonar-scanner
+RUN sed -i 's/use_embedded_jre=true/use_embedded_jre=false/g' /root/sonar-scanner-cli-3.3.0.1492-linux/bin/sonar-scanner
 
 # Use bash if you want to run the environment from inside the shell, otherwise use the command that actually runs the underlying stuff
 #CMD /bin/bash
